@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>A Church App — Stay Connected to Your Church All Week</title>
+  <meta name="description" content="Find your church. Grow in faith. Stay connected all week with daily devotionals, sermon clips, and your church community.">
+  <meta name="apple-itunes-app" content="app-id=6470878948">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="A Church App — Stay Connected to Your Church All Week">
+  <meta property="og:description" content="Daily devotionals, sermon clips, and spiritual growth tracking. Sunday is just the beginning.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.achurch.app">
+  <meta property="og:image" content="https://www.achurch.app/og-image.png">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="/appicon.png">
+  <link rel="apple-touch-icon" href="/appicon.png">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0a0a0f;
+      --surface: #111118;
+      --border: #1e1e2a;
+      --text: #fafafa;
+      --text-muted: #8a8a9a;
+      --accent: #dc2626;
+      --accent-soft: rgba(220, 38, 38, 0.12);
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Nav */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 50;
+      padding: 1rem 1.5rem;
+      background: rgba(10, 10, 15, 0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      text-decoration: none;
+      color: var(--text);
+    }
+    .nav-logo img {
+      width: 36px;
+      height: 36px;
+      border-radius: 8px;
+    }
+    .nav-logo span {
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+    .nav-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--text);
+      color: var(--bg);
+      padding: 0.5rem 1.25rem;
+      border-radius: 999px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.875rem;
+      transition: opacity 0.2s;
+    }
+    .nav-cta:hover { opacity: 0.9; }
+    .nav-cta svg { width: 16px; height: 16px; }
+
+    /* Hero */
+    .hero {
+      padding: 8rem 1.5rem 4rem;
+      text-align: center;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .hero-badge {
+      display: inline-block;
+      padding: 0.375rem 1rem;
+      background: var(--accent-soft);
+      color: var(--accent);
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      border: 1px solid rgba(220, 38, 38, 0.2);
+    }
+    .hero h1 {
+      font-size: clamp(2.25rem, 5vw, 3.5rem);
+      font-weight: 800;
+      line-height: 1.1;
+      margin-bottom: 1.25rem;
+      letter-spacing: -0.03em;
+    }
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, #dc2626, #f97316);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero p {
+      font-size: 1.2rem;
+      color: var(--text-muted);
+      max-width: 560px;
+      margin: 0 auto 2rem;
+    }
+    .hero-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--text);
+      color: var(--bg);
+      padding: 0.875rem 2rem;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 1rem;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+    .btn-primary:hover { transform: translateY(-1px); opacity: 0.95; }
+    .btn-primary svg { width: 20px; height: 20px; }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: transparent;
+      color: var(--text);
+      padding: 0.875rem 2rem;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 1rem;
+      border: 1px solid var(--border);
+      transition: background 0.2s;
+    }
+    .btn-secondary:hover { background: var(--surface); }
+
+    /* Features */
+    .features {
+      padding: 4rem 1.5rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .features-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .features-header h2 {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.02em;
+    }
+    .features-header p {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 1.25rem;
+    }
+    .feature-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem;
+      transition: border-color 0.2s;
+    }
+    .feature-card:hover { border-color: #2a2a3a; }
+    .feature-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+      font-size: 1.5rem;
+    }
+    .feature-card h3 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+    .feature-card p {
+      color: var(--text-muted);
+      font-size: 0.925rem;
+      line-height: 1.6;
+    }
+
+    /* Journey */
+    .journey {
+      padding: 4rem 1.5rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+    .journey h2 {
+      font-size: 2rem;
+      font-weight: 800;
+      text-align: center;
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.02em;
+    }
+    .journey > p {
+      text-align: center;
+      color: var(--text-muted);
+      margin-bottom: 2.5rem;
+      font-size: 1.1rem;
+    }
+    .stage-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 0.75rem;
+    }
+    .stage-item {
+      display: flex;
+      align-items: center;
+      gap: 0.875rem;
+      padding: 1rem 1.25rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+    }
+    .stage-num {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.8rem;
+      flex-shrink: 0;
+    }
+    .stage-item span {
+      font-size: 0.925rem;
+      font-weight: 500;
+    }
+
+    /* CTA */
+    .cta {
+      padding: 5rem 1.5rem;
+      text-align: center;
+    }
+    .cta-box {
+      max-width: 640px;
+      margin: 0 auto;
+      background: linear-gradient(135deg, rgba(220, 38, 38, 0.08), rgba(249, 115, 22, 0.06));
+      border: 1px solid rgba(220, 38, 38, 0.15);
+      border-radius: 24px;
+      padding: 3.5rem 2rem;
+    }
+    .cta h2 {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 0.75rem;
+      letter-spacing: -0.02em;
+    }
+    .cta p {
+      color: var(--text-muted);
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+    }
+
+    /* Footer */
+    footer {
+      padding: 2rem 1.5rem;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+    .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: color 0.2s;
+    }
+    .footer-links a:hover { color: var(--text); }
+    .footer-copy {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 640px) {
+      .hero { padding: 6.5rem 1.25rem 3rem; }
+      .hero-buttons { flex-direction: column; align-items: center; }
+      .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
+      .footer-inner { flex-direction: column; text-align: center; }
+      .stage-list { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">
+        <img src="/appicon.png" alt="A Church App">
+        <span>A Church App</span>
+      </a>
+      <a href="https://apps.apple.com/app/a-church-app/id6470878948" class="nav-cta">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 21.99 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 21.99C7.79 22.03 6.8 20.68 5.96 19.47C4.25 16.97 2.94 12.45 4.7 9.39C5.57 7.87 7.13 6.91 8.82 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.09 16.67C20.06 16.74 19.67 18.11 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z"/></svg>
+        Download
+      </a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-badge">Sunday is just the beginning</div>
+    <h1>Stay connected to <em>your church</em> all week long</h1>
+    <p>Daily devotionals from your pastor, sermon highlights, and spiritual growth tracking — delivered to your phone every day.</p>
+    <div class="hero-buttons">
+      <a href="https://apps.apple.com/app/a-church-app/id6470878948" class="btn-primary">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 21.99 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 21.99C7.79 22.03 6.8 20.68 5.96 19.47C4.25 16.97 2.94 12.45 4.7 9.39C5.57 7.87 7.13 6.91 8.82 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.09 16.67C20.06 16.74 19.67 18.11 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z"/></svg>
+        Download on the App Store
+      </a>
+      <a href="#features" class="btn-secondary">See Features</a>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="features" id="features">
+    <div class="features-header">
+      <h2>Everything you need to grow in faith</h2>
+      <p>Your church community, right in your pocket</p>
+    </div>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon" style="background: rgba(59,130,246,0.12);">
+          <span style="color: #3b82f6;">&#9981;</span>
+        </div>
+        <h3>Find Your Church</h3>
+        <p>Search for churches in your area, view profiles, and get connected instantly. Join your community with a simple sign-up.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background: rgba(220,38,38,0.12);">
+          <span style="color: #dc2626;">&#128214;</span>
+        </div>
+        <h3>Daily Devotionals</h3>
+        <p>Receive daily readings from your pastor's latest sermon. Scripture, reflection questions, and practical next steps — every day of the week.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background: rgba(168,85,247,0.12);">
+          <span style="color: #a855f7;">&#127909;</span>
+        </div>
+        <h3>Sermon Video Clips</h3>
+        <p>Watch the most powerful moments from each sermon. Short, shareable clips you can send to friends and family.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background: rgba(249,115,22,0.12);">
+          <span style="color: #f97316;">&#128293;</span>
+        </div>
+        <h3>Track Your Growth</h3>
+        <p>Build a daily streak, see your weekly progress, and celebrate milestones as you journey through stages of faith.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background: rgba(34,197,94,0.12);">
+          <span style="color: #22c55e;">&#128172;</span>
+        </div>
+        <h3>Stay Connected</h3>
+        <p>Browse your church's staff directory, message your pastor directly, and engage with devotionals alongside your church family.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon" style="background: rgba(236,72,153,0.12);">
+          <span style="color: #ec4899;">&#128278;</span>
+        </div>
+        <h3>Personal Reflections</h3>
+        <p>Add private notes on any devotional, bookmark your favorites, and build a personal library of spiritual insights.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Journey -->
+  <section class="journey" id="journey">
+    <h2>Meet you where you are</h2>
+    <p>Whether you're visiting for the first time or leading others, content is tailored to your stage of growth.</p>
+    <div class="stage-list">
+      <div class="stage-item">
+        <div class="stage-num" style="background: rgba(59,130,246,0.15); color: #3b82f6;">1</div>
+        <span>First Visit</span>
+      </div>
+      <div class="stage-item">
+        <div class="stage-num" style="background: rgba(168,85,247,0.15); color: #a855f7;">2</div>
+        <span>Gospel Presented</span>
+      </div>
+      <div class="stage-item">
+        <div class="stage-num" style="background: rgba(220,38,38,0.15); color: #dc2626;">3</div>
+        <span>Saved</span>
+      </div>
+      <div class="stage-item">
+        <div class="stage-num" style="background: rgba(6,182,212,0.15); color: #06b6d4;">4</div>
+        <span>Baptized</span>
+      </div>
+      <div class="stage-item">
+        <div class="stage-num" style="background: rgba(34,197,94,0.15); color: #22c55e;">5</div>
+        <span>Member</span>
+      </div>
+      <div class="stage-item">
+        <div class="stage-num" style="background: rgba(249,115,22,0.15); color: #f97316;">6</div>
+        <span>Discipleship</span>
+      </div>
+      <div class="stage-item">
+        <div class="stage-num" style="background: rgba(236,72,153,0.15); color: #ec4899;">7</div>
+        <span>Ready to Serve</span>
+      </div>
+      <div class="stage-item">
+        <div class="stage-num" style="background: rgba(234,179,8,0.15); color: #eab308;">8</div>
+        <span>Serving</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <div class="cta-box">
+      <h2>Start your journey today</h2>
+      <p>Download A Church App and stay plugged into your church community every day of the week.</p>
+      <a href="https://apps.apple.com/app/a-church-app/id6470878948" class="btn-primary">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.71 19.5C17.88 20.74 17 21.95 15.66 21.97C14.32 21.99 13.89 21.18 12.37 21.18C10.84 21.18 10.37 21.95 9.1 21.99C7.79 22.03 6.8 20.68 5.96 19.47C4.25 16.97 2.94 12.45 4.7 9.39C5.57 7.87 7.13 6.91 8.82 6.88C10.1 6.86 11.32 7.75 12.11 7.75C12.89 7.75 14.37 6.68 15.92 6.84C16.57 6.87 18.39 7.1 19.56 8.82C19.47 8.88 17.39 10.1 17.41 12.63C17.44 15.65 20.06 16.66 20.09 16.67C20.06 16.74 19.67 18.11 18.71 19.5ZM13 3.5C13.73 2.67 14.94 2.04 15.94 2C16.07 3.17 15.6 4.35 14.9 5.19C14.21 6.04 13.07 6.7 11.95 6.61C11.8 5.46 12.36 4.26 13 3.5Z"/></svg>
+        Download on the App Store
+      </a>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-copy">&copy; 2026 153 Comeback Inc. All rights reserved.</span>
+      <div class="footer-links">
+        <a href="/privacy">Privacy Policy</a>
+        <a href="/terms">Terms of Service</a>
+        <a href="/support">Support</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
